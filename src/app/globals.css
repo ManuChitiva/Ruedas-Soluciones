@@ -184,43 +184,42 @@ html[data-theme="dark"] .store-inset-soft {
   background: var(--store-page-bg);
 }
 
-.caster-hero-frame {
-  position: relative;
-  z-index: 1;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border-radius: 1.5rem;
-  border: 1px solid var(--store-border);
-  background: var(--store-muted);
-  box-shadow: var(--store-shadow-soft);
-}
-
 .hero-studio-scrim {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse at 50% 42%,
-    transparent 42%,
-    color-mix(in srgb, var(--store-muted) 35%, transparent) 100%
+  background: linear-gradient(
+    90deg,
+    var(--store-page-bg) 0%,
+    color-mix(in srgb, var(--store-page-bg) 82%, transparent) 26%,
+    color-mix(in srgb, var(--store-page-bg) 20%, transparent) 52%,
+    transparent 72%
   );
 }
 
+@media (max-width: 1023px) {
+  .hero-studio-scrim {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--store-page-bg) 12%, transparent) 0%,
+      color-mix(in srgb, var(--store-page-bg) 22%, transparent) 42%,
+      var(--store-page-bg) 100%
+    );
+  }
+}
+
 .caster-hero-bg {
-  position: absolute;
-  inset: 0;
   display: block;
 }
 
 .caster-hero-glow {
   position: absolute;
-  left: 50%;
-  top: 42%;
+  right: 6%;
+  top: 22%;
   z-index: 0;
-  width: 78%;
-  height: 70%;
-  transform: translate(-50%, -50%);
+  width: min(48vw, 36rem);
+  height: min(56vh, 28rem);
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
@@ -239,16 +238,16 @@ html[data-theme="dark"] .store-inset-soft {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: center center;
+  object-position: right center;
   -webkit-mask-image: radial-gradient(
-    ellipse 88% 82% at 50% 48%,
-    #000 48%,
-    transparent 82%
+    ellipse 78% 72% at 62% 48%,
+    #000 42%,
+    transparent 78%
   );
   mask-image: radial-gradient(
-    ellipse 88% 82% at 50% 48%,
-    #000 48%,
-    transparent 82%
+    ellipse 78% 72% at 62% 48%,
+    #000 42%,
+    transparent 78%
   );
   transition: opacity 0.35s ease;
 }
@@ -279,51 +278,25 @@ html[data-theme="dark"] .caster-hero-glow {
   );
 }
 
-@media (min-width: 1024px) {
-  .caster-hero-frame {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    aspect-ratio: auto;
-    height: 100%;
-    width: 100%;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-    pointer-events: none;
-  }
-
-  .hero-studio-scrim {
-    background: linear-gradient(
-      90deg,
-      var(--store-page-bg) 0%,
-      color-mix(in srgb, var(--store-page-bg) 82%, transparent) 26%,
-      color-mix(in srgb, var(--store-page-bg) 20%, transparent) 52%,
-      transparent 72%
-    );
-  }
-
+@media (max-width: 1023px) {
   .caster-hero-glow {
-    left: auto;
-    right: 6%;
-    top: 22%;
-    width: min(48vw, 36rem);
-    height: min(56vh, 28rem);
-    transform: none;
+    right: 50%;
+    top: 2%;
+    width: 88vw;
+    height: 20rem;
+    transform: translateX(50%);
   }
 
   .caster-hero-video {
-    object-fit: contain;
-    object-position: right center;
+    object-position: center top;
     -webkit-mask-image: radial-gradient(
-      ellipse 78% 72% at 62% 48%,
-      #000 42%,
+      ellipse 70% 68% at 50% 38%,
+      #000 36%,
       transparent 78%
     );
     mask-image: radial-gradient(
-      ellipse 78% 72% at 62% 48%,
-      #000 42%,
+      ellipse 70% 68% at 50% 38%,
+      #000 36%,
       transparent 78%
     );
   }
