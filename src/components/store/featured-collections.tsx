@@ -9,10 +9,6 @@ export type FeaturedCollectionsProps = {
   collections: StoreFeaturedCollection[];
 };
 
-/**
- * Colecciones destacadas — bloque editorial de 3 cards grandes.
- * Una es doble de alta (la primera) para crear jerarquía tipo Apple.
- */
 export function FeaturedCollections({
   eyebrow = "Colecciones",
   headline = "Explora nuestras líneas principales.",
@@ -24,10 +20,10 @@ export function FeaturedCollections({
   return (
     <section
       aria-labelledby="featured-collections-heading"
-      className="relative w-full"
+      className="relative w-full bg-[var(--store-muted)]/55"
     >
-      <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24 xl:px-10 2xl:px-12">
-        <header className="mb-10 max-w-2xl space-y-3 sm:mb-14">
+      <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 xl:px-10 2xl:px-12">
+        <header className="mb-10 max-w-2xl space-y-3 sm:mb-12">
           <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--store-primary)]">
             {eyebrow}
           </p>
@@ -42,102 +38,46 @@ export function FeaturedCollections({
           </p>
         </header>
 
-        {/*
-         * Layout: la primera card ocupa una fila completa, las siguientes
-         * van en grid 1x2 (en sm+) o stack vertical (en móvil). Jerarquía
-         * editorial tipo Apple.
-         */}
-        <div className="grid grid-cols-1 gap-5 lg:gap-6">
-          <CollectionCard collection={collections[0]} variant="hero" />
-
-          {collections.length > 1 ? (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:gap-6">
-              {collections.slice(1).map((collection) => (
-                <CollectionCard
-                  key={collection.id}
-                  collection={collection}
-                  variant="split"
-                />
-              ))}
-            </div>
-          ) : null}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6">
+          {collections.map((collection) => (
+            <CollectionCard key={collection.id} collection={collection} />
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-type Variant = "hero" | "split";
-
 function CollectionCard({
   collection,
-  variant,
 }: {
   collection: StoreFeaturedCollection;
-  variant: Variant;
 }) {
-  const isHero = variant === "hero";
-  const aspectClass = isHero
-    ? "aspect-[16/9] sm:aspect-[21/9]"
-    : "aspect-[4/3] sm:aspect-[16/10]";
-
   return (
     <a
       href={collection.href}
-      className="store-card group relative block w-full overflow-hidden rounded-2xl border border-[var(--store-border)] bg-[var(--store-muted)]"
+      className="store-card group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)]"
     >
-      <div className={`relative w-full ${aspectClass}`}>
+      <div className="store-studio relative aspect-[4/3] w-full overflow-hidden">
         <Image
           src={collection.imageSrc}
           alt={collection.imageAlt}
           fill
-          sizes={
-            isHero
-              ? "(max-width: 1024px) 100vw, 1024px"
-              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
-          }
-          className="object-contain p-6 transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03] sm:p-8"
-        />
-        {/* Gradient for legibility */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="object-contain p-8 transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] sm:p-10"
         />
       </div>
-
-      <div
-        className={`absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 text-white ${
-          isHero
-            ? "p-6 sm:p-8 lg:p-10"
-            : "p-5 sm:p-6"
-        }`}
-      >
-        <div className="min-w-0 flex-1">
-          <h3
-            className={`font-display tracking-tight ${
-              isHero
-                ? "text-[1.5rem] sm:text-[2rem] lg:text-[2.25rem]"
-                : "text-[1.25rem] sm:text-[1.5rem]"
-            }`}
-          >
+      <div className="flex flex-1 items-end justify-between gap-4 p-6">
+        <div className="min-w-0">
+          <h3 className="font-display text-[1.35rem] tracking-tight text-[var(--store-text)]">
             {collection.name}
           </h3>
-          <p
-            className={`mt-2 max-w-md text-white/85 ${
-              isHero ? "text-[14px] sm:text-[15px]" : "text-[13px]"
-            }`}
-          >
+          <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--store-text-soft)]">
             {collection.description}
           </p>
         </div>
-        <span
-          className={`grid shrink-0 place-items-center rounded-full bg-white/95 text-[var(--store-text)] shadow-[var(--store-shadow-soft)] backdrop-blur transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
-            isHero ? "h-12 w-12" : "h-10 w-10"
-          }`}
-        >
-          <IconArrowUpRight
-            className={isHero ? "h-[18px] w-[18px]" : "h-[14px] w-[14px]"}
-          />
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--store-primary)] text-[var(--store-on-primary)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+          <IconArrowUpRight className="h-[16px] w-[16px]" />
         </span>
       </div>
     </a>

@@ -94,24 +94,26 @@ export default async function Home() {
 
         <main
           id="productos"
-          className="w-full min-w-0 flex-1 px-4 py-10 sm:px-6 sm:py-12 lg:px-8 xl:px-10 2xl:px-14"
+          className="w-full min-w-0 flex-1 border-y border-[var(--store-border)] bg-[var(--store-page-bg)]"
         >
-          <div className="lg:grid lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] lg:items-start lg:gap-8 xl:gap-12">
-            <aside
-              id="contacto"
-              className="order-2 mt-12 mb-10 space-y-5 lg:order-1 lg:mt-0 lg:mb-0 lg:sticky lg:top-[5.25rem] lg:self-start"
-            >
-              <StoreSidebar contact={store.contact} pickup={store.pickup} />
-            </aside>
-            <div className="order-1 min-w-0">
-              <CatalogSection
-                eyebrow={store.catalog.eyebrow}
-                headline={store.catalog.headline}
-                subline={store.catalog.subline}
-                sortLabel={store.catalog.sortLabel}
-                sortOptions={store.catalog.sortOptions}
-                products={store.catalog.products}
-              />
+          <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 xl:px-10 2xl:px-12">
+            <div className="lg:grid lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:items-start lg:gap-10 xl:gap-14">
+              <aside
+                id="contacto"
+                className="order-2 mt-12 mb-4 space-y-5 lg:order-1 lg:mt-0 lg:mb-0 lg:sticky lg:top-[5.25rem] lg:self-start"
+              >
+                <StoreSidebar contact={store.contact} pickup={store.pickup} />
+              </aside>
+              <div className="order-1 min-w-0">
+                <CatalogSection
+                  eyebrow={store.catalog.eyebrow}
+                  headline={store.catalog.headline}
+                  subline={store.catalog.subline}
+                  sortLabel={store.catalog.sortLabel}
+                  sortOptions={store.catalog.sortOptions}
+                  products={store.catalog.products}
+                />
+              </div>
             </div>
           </div>
         </main>

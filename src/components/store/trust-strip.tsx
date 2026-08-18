@@ -30,16 +30,16 @@ export function TrustStrip({
   return (
     <section
       aria-labelledby="trust-heading"
-      className="relative w-full border-y border-[var(--store-border)] bg-[var(--store-muted)]/55"
+      className="relative w-full border-y border-[var(--store-border)] bg-[var(--store-muted)]/70"
     >
-      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 xl:px-10 2xl:px-12">
-        <header className="mb-8 max-w-2xl space-y-2 sm:mb-10">
+      <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 xl:px-10 2xl:px-12">
+        <header className="mb-10 max-w-2xl space-y-3 sm:mb-12">
           <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--store-primary)]">
             {eyebrow}
           </p>
           <h2
             id="trust-heading"
-            className="font-display text-2xl tracking-tight text-[var(--store-text)] sm:text-3xl"
+            className="font-display text-3xl tracking-tight text-[var(--store-text)] sm:text-4xl"
           >
             {headline}
           </h2>
@@ -50,15 +50,15 @@ export function TrustStrip({
             return (
               <li
                 key={item.id}
-                className="store-card rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)] p-5"
+                className="store-card rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)] p-6"
               >
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--store-primary)]/12 text-[var(--store-primary)]">
+                <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[var(--store-primary)]/12 text-[var(--store-primary)]">
                   <Icon className="h-5 w-5" />
                 </span>
-                <h3 className="mt-4 font-display text-[1.05rem] tracking-tight text-[var(--store-text)]">
+                <h3 className="mt-5 font-display text-[1.1rem] tracking-tight text-[var(--store-text)]">
                   {item.title}
                 </h3>
-                <p className="mt-1.5 text-[13.5px] leading-relaxed text-[var(--store-text-soft)]">
+                <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--store-text-soft)]">
                   {item.description}
                 </p>
               </li>
