@@ -306,7 +306,6 @@ export type StoreConfig = {
   heroSlides?: StoreHeroSlide[];
   /** Asesores comerciales — listados en el widget flotante de asesoría */
   advisors?: StoreAdvisor[];
-  advisors?: StoreAdvisor[];
   /** Categorías destacadas del strip — si está vacío, el strip se omite */
   featuredCategories?: StoreFeaturedCategory[];
   /** Colecciones destacadas — bloque editorial grande en la portada */

@@ -1,6 +1,10 @@
 "use server";
 
 import { defaultStoreConfig } from "@/config/store-defaults";
+import {
+  extractAdvisorList,
+  mapAdvisors,
+} from "@/lib/store-advisor-mapper";
 import type {
   ContactLine,
   PickupOption,
@@ -239,9 +243,8 @@ function mapProducts(data: ProductApiResponse[]): StoreConfig["catalog"]["produc
  * asesores activos. Si no hay foto, se usa un avatar neutro generado
  * por seed (consistente para re-renders).
  *
- * El mapper real vive en `@/lib/store-advisor-mapper` y se usa desde
- * `AdvisorsModalProvider` (fetch lazy, client-side). Esta función queda
- * eliminada del SSR.
+ * El mapper real vive en `@/lib/store-advisor-mapper` y se usa al armar
+ * la config SSR y en `GET /api/advisors`.
  */
 
 export async function getStoreConfigFromApi(): Promise<StoreConfig> {
@@ -279,8 +282,19 @@ export async function getStoreConfigFromApi(): Promise<StoreConfig> {
       // Keep empty catalog if products endpoint fails.
     }
 
-    // Asesores: el fetch se hace client-side, lazy, desde
-    // `AdvisorsModalProvider` para el widget flotante.
+    let advisors: StoreConfig["advisors"] = [];
+    try {
+      const personalRes = await fetch(
+        `${sanitizedBaseUrl}/stores/${slug}/personal`,
+        { method: "GET", cache: "no-store" },
+      );
+      if (personalRes.ok) {
+        const payload: unknown = await personalRes.json();
+        advisors = mapAdvisors(extractAdvisorList(payload));
+      }
+    } catch {
+      // El widget reintenta por /api/advisors (same-origin).
+    }
 
     return {
       ...defaultStoreConfig,
@@ -314,6 +328,7 @@ export async function getStoreConfigFromApi(): Promise<StoreConfig> {
         ...defaultStoreConfig.catalog,
         products: catalogProducts,
       },
+      advisors,
     };
   } catch {
     return withoutMockProducts(defaultStoreConfig);

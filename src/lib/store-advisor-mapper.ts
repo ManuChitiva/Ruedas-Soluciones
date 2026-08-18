@@ -16,15 +16,31 @@ export type AdvisorApiResponse = {
 };
 
 /**
- * Mapea un asesor del backend al shape del storefront. Solo conserva
- * miembros activos. Si el nombre viene vacío, cae a "Asesor" para no
- * romper la UI; si falta la foto, usa un avatar de picsum estable por id.
+ * Extrae el array de asesores de payloads heterogéneos del backend
+ * (lista plana o envoltorio tipo Spring `{ content | data | members }`).
+ */
+export function extractAdvisorList(payload: unknown): AdvisorApiResponse[] {
+  if (Array.isArray(payload)) return payload as AdvisorApiResponse[];
+  if (payload && typeof payload === "object") {
+    const record = payload as Record<string, unknown>;
+    for (const key of ["content", "data", "members", "items", "personal"]) {
+      const value = record[key];
+      if (Array.isArray(value)) return value as AdvisorApiResponse[];
+    }
+  }
+  return [];
+}
+
+/**
+ * Mapea un asesor del backend al shape del storefront. Conserva miembros
+ * activos (si `active` no viene, se asume publicado). Si el nombre viene
+ * vacío, cae a "Asesor"; si falta la foto, usa un avatar estable por id.
  *
  * Es seguro llamarlo desde el cliente (no toca I/O ni hace fetch).
  */
 export function mapAdvisors(data: AdvisorApiResponse[]): StoreAdvisor[] {
   return data
-    .filter((item) => item.active)
+    .filter((item) => item && item.active !== false)
     .map((entry) => ({
       sortOrder: Number(entry.sortOrder ?? 0),
       advisor: {

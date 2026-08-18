@@ -22,19 +22,11 @@ export default async function Home() {
   const hasSlides =
     Array.isArray(store.heroSlides) && store.heroSlides.length > 0;
 
-  // Slug y base URL para el widget flotante de asesores.
-  const advisorSlug =
-    store.slug ??
-    process.env.NEXT_PUBLIC_STORE_API_SLUG?.trim() ??
-    "01";
-  const advisorApiBaseUrl =
-    process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "";
+  // Asesores resueltos en el servidor para el widget flotante.
+  const initialAdvisors = store.advisors ?? [];
 
   return (
-    <AdvisorsModalProvider
-      slug={advisorSlug}
-      apiBaseUrl={advisorApiBaseUrl}
-    >
+    <AdvisorsModalProvider initialAdvisors={initialAdvisors}>
       <div
         className="flex min-h-[100dvh] w-full flex-col text-[var(--store-text)]"
         style={store.theme ? themeToStyle(store.theme) : undefined}
@@ -60,6 +52,28 @@ export default async function Home() {
         {store.services && store.services.length > 0 ? (
           <TrustStrip items={store.services} />
         ) : null}
+
+        <main
+          id="productos"
+          className="w-full min-w-0 flex-1 border-y border-[var(--store-border)] bg-[var(--store-page-bg)]"
+        >
+          <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20 xl:px-10 2xl:px-12">
+            <CatalogSection
+              eyebrow={store.catalog.eyebrow}
+              headline={store.catalog.headline}
+              subline={store.catalog.subline}
+              sortLabel={store.catalog.sortLabel}
+              sortOptions={store.catalog.sortOptions}
+              products={store.catalog.products}
+            />
+            <aside
+              id="contacto"
+              className="mt-12 max-w-xl lg:mt-16"
+            >
+              <StoreSidebar contact={store.contact} pickup={store.pickup} />
+            </aside>
+          </div>
+        </main>
 
         {hasSlides ? (
           <HeroHighlights slides={store.heroSlides ?? []} />
@@ -91,32 +105,6 @@ export default async function Home() {
             steps={store.process.steps}
           />
         ) : null}
-
-        <main
-          id="productos"
-          className="w-full min-w-0 flex-1 border-y border-[var(--store-border)] bg-[var(--store-page-bg)]"
-        >
-          <div className="mx-auto w-full max-w-[90rem] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 xl:px-10 2xl:px-14">
-            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(16rem,18rem)] lg:items-start lg:gap-10 xl:gap-12 2xl:gap-16">
-              <div className="min-w-0">
-                <CatalogSection
-                  eyebrow={store.catalog.eyebrow}
-                  headline={store.catalog.headline}
-                  subline={store.catalog.subline}
-                  sortLabel={store.catalog.sortLabel}
-                  sortOptions={store.catalog.sortOptions}
-                  products={store.catalog.products}
-                />
-              </div>
-              <aside
-                id="contacto"
-                className="mt-12 space-y-5 lg:mt-0 lg:sticky lg:top-[5.25rem] lg:self-start"
-              >
-                <StoreSidebar contact={store.contact} pickup={store.pickup} />
-              </aside>
-            </div>
-          </div>
-        </main>
 
         {store.testimonials && store.testimonials.items.length > 0 ? (
           <TestimonialsBand
