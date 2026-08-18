@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   IconChevronDown,
   IconChevronLeft,
@@ -37,6 +37,8 @@ export function CatalogSection({
   const [view, setView] = useState<"grid" | "list">("grid");
   const [page, setPage] = useState(1);
   const [detailProduct, setDetailProduct] = useState<StoreProduct | null>(null);
+  const catalogAnchorRef = useRef<HTMLDivElement>(null);
+  const skipScrollRef = useRef(true);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -51,7 +53,6 @@ export function CatalogSection({
     return list;
   }, [filtered, sortId]);
 
-  // Reset to first page whenever the visible set changes (search / sort).
   useEffect(() => {
     setPage(1);
   }, [query, sortId]);
@@ -75,8 +76,6 @@ export function CatalogSection({
         ? "1 artículo"
         : `Mostrando ${pageStart}–${pageEnd} de ${sorted.length} artículos`;
 
-  // Ventana de páginas a mostrar: siempre primera, última, actual y sus
-  // vecinas; el resto se reemplaza por elipsis para no desbordar el control.
   const pageWindow = useMemo<(number | "ellipsis")[]>(() => {
     if (totalPages <= 7) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -97,8 +96,38 @@ export function CatalogSection({
     return result;
   }, [safePage, totalPages]);
 
+  function goToPage(next: number) {
+    const clamped = Math.min(totalPages, Math.max(1, next));
+    if (clamped === safePage) return;
+    setPage(clamped);
+  }
+
+  useEffect(() => {
+    if (skipScrollRef.current) {
+      skipScrollRef.current = false;
+      return;
+    }
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    catalogAnchorRef.current?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }, [safePage]);
+
+  const pager = {
+    safePage,
+    totalPages,
+    pageWindow,
+    onPage: goToPage,
+  };
+
   return (
-    <div className="min-w-0 space-y-10">
+    <div
+      ref={catalogAnchorRef}
+      className="min-w-0 scroll-mt-[5.25rem] space-y-8 sm:scroll-mt-[5.5rem]"
+    >
       <header className="space-y-3">
         <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--store-primary)]">
           {eyebrow}
@@ -114,76 +143,87 @@ export function CatalogSection({
               </p>
             ) : null}
           </div>
-          <p className="shrink-0 text-sm font-normal tabular-nums text-[var(--store-text-soft)]">
+          <p
+            className="shrink-0 text-sm font-normal tabular-nums text-[var(--store-text-soft)]"
+            aria-live="polite"
+          >
             {countLabel}
           </p>
         </div>
       </header>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
-        <div className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] px-4 shadow-[var(--store-shadow-soft)] transition focus-within:border-[var(--store-primary)] focus-within:ring-2 focus-within:ring-[var(--store-ring-focus)]">
-          <IconSearch className="h-[18px] w-[18px] shrink-0 text-[var(--store-text-soft)]" />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Buscar en la colección…"
-            className="min-w-0 flex-1 border-0 bg-transparent py-2.5 text-[14px] text-[var(--store-text)] outline-none placeholder:text-[var(--store-text-soft)]"
-            aria-label="Buscar productos"
-          />
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 sm:shrink-0">
-          <div className="relative min-w-0 flex-1 sm:min-w-[11rem] sm:flex-initial">
-            <select
-              value={sortId}
-              onChange={(e) => setSortId(e.target.value)}
-              className="h-11 w-full min-w-[10.5rem] cursor-pointer appearance-none rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] py-2 pl-3.5 pr-10 text-[13px] text-[var(--store-text)] shadow-[var(--store-shadow-soft)] outline-none transition hover:border-[var(--store-primary)]/45 focus:border-[var(--store-primary)] focus:ring-2 focus:ring-[var(--store-ring-focus)]"
-              aria-label="Ordenar por"
-            >
-              {sortOptions.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-            <IconChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--store-text-soft)]" />
-            <span className="sr-only">Orden: {currentSortLabel}</span>
+      <div className="sticky top-[4.25rem] z-30 -mx-4 space-y-3 border-y border-[var(--store-border)] bg-[var(--store-page-bg)]/92 px-4 py-3 shadow-[var(--store-shadow-soft)] backdrop-blur-xl sm:top-[4.5rem] sm:-mx-0 sm:rounded-2xl sm:border sm:px-4 lg:top-[4.75rem]">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
+          <div className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] px-4 transition focus-within:border-[var(--store-primary)] focus-within:ring-2 focus-within:ring-[var(--store-ring-focus)]">
+            <IconSearch className="h-[18px] w-[18px] shrink-0 text-[var(--store-text-soft)]" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Buscar en la colección…"
+              className="min-w-0 flex-1 border-0 bg-transparent py-2.5 text-[14px] text-[var(--store-text)] outline-none placeholder:text-[var(--store-text-soft)]"
+              aria-label="Buscar productos"
+            />
           </div>
 
-          <div
-            className="flex rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] p-1 shadow-[var(--store-shadow-soft)]"
-            role="group"
-            aria-label="Vista de catálogo"
-          >
-            <button
-              type="button"
-              className={`grid h-9 w-9 place-items-center rounded-md transition ${
-                view === "grid"
-                  ? "bg-[var(--store-muted)] text-[var(--store-primary)]"
-                  : "text-[var(--store-text-soft)] hover:text-[var(--store-text)]"
-              }`}
-              onClick={() => setView("grid")}
-              aria-pressed={view === "grid"}
-              aria-label="Vista cuadrícula"
+          <div className="flex flex-wrap items-center gap-2 sm:shrink-0">
+            <div className="relative min-w-0 flex-1 sm:min-w-[11rem] sm:flex-initial">
+              <select
+                value={sortId}
+                onChange={(e) => setSortId(e.target.value)}
+                className="h-11 w-full min-w-[10.5rem] cursor-pointer appearance-none rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] py-2 pl-3.5 pr-10 text-[13px] text-[var(--store-text)] outline-none transition hover:border-[var(--store-primary)]/45 focus:border-[var(--store-primary)] focus:ring-2 focus:ring-[var(--store-ring-focus)]"
+                aria-label="Ordenar por"
+              >
+                {sortOptions.map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+              <IconChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--store-text-soft)]" />
+              <span className="sr-only">Orden: {currentSortLabel}</span>
+            </div>
+
+            <div
+              className="flex rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] p-1"
+              role="group"
+              aria-label="Vista de catálogo"
             >
-              <IconGrid />
-            </button>
-            <button
-              type="button"
-              className={`grid h-9 w-9 place-items-center rounded-md transition ${
-                view === "list"
-                  ? "bg-[var(--store-muted)] text-[var(--store-primary)]"
-                  : "text-[var(--store-text-soft)] hover:text-[var(--store-text)]"
-              }`}
-              onClick={() => setView("list")}
-              aria-pressed={view === "list"}
-              aria-label="Vista lista"
-            >
-              <IconList />
-            </button>
+              <button
+                type="button"
+                className={`grid h-9 w-9 place-items-center rounded-md transition ${
+                  view === "grid"
+                    ? "bg-[var(--store-muted)] text-[var(--store-primary)]"
+                    : "text-[var(--store-text-soft)] hover:text-[var(--store-text)]"
+                }`}
+                onClick={() => setView("grid")}
+                aria-pressed={view === "grid"}
+                aria-label="Vista cuadrícula"
+              >
+                <IconGrid />
+              </button>
+              <button
+                type="button"
+                className={`grid h-9 w-9 place-items-center rounded-md transition ${
+                  view === "list"
+                    ? "bg-[var(--store-muted)] text-[var(--store-primary)]"
+                    : "text-[var(--store-text-soft)] hover:text-[var(--store-text)]"
+                }`}
+                onClick={() => setView("list")}
+                aria-pressed={view === "list"}
+                aria-label="Vista lista"
+              >
+                <IconList />
+              </button>
+            </div>
           </div>
         </div>
+
+        <CatalogPager
+          {...pager}
+          variant="compact"
+          ariaLabel="Cambiar página del catálogo"
+        />
       </div>
 
       <div
@@ -203,59 +243,11 @@ export function CatalogSection({
         ))}
       </div>
 
-      {totalPages > 1 ? (
-        <nav
-          aria-label="Paginación del catálogo"
-          className="flex flex-wrap items-center justify-center gap-1.5 pt-2"
-        >
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={safePage <= 1}
-            className="inline-flex h-10 items-center gap-1.5 rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] px-3 text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[var(--store-border)] disabled:hover:text-[var(--store-text)]"
-          >
-            <IconChevronLeft className="h-4 w-4" />
-            <span className="hidden sm:inline">Anterior</span>
-          </button>
-
-          {pageWindow.map((entry, idx) =>
-            entry === "ellipsis" ? (
-              <span
-                key={`ellipsis-${idx}`}
-                aria-hidden
-                className="grid h-10 w-10 place-items-center text-[var(--store-text-soft)]"
-              >
-                …
-              </span>
-            ) : (
-              <button
-                key={entry}
-                type="button"
-                onClick={() => setPage(entry)}
-                aria-current={entry === safePage ? "page" : undefined}
-                aria-label={`Ir a la página ${entry}`}
-                className={
-                  entry === safePage
-                    ? "grid h-10 w-10 place-items-center rounded-full bg-[var(--store-primary)] text-[13px] font-semibold text-[var(--store-on-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)]"
-                    : "grid h-10 w-10 place-items-center rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)]"
-                }
-              >
-                {entry}
-              </button>
-            ),
-          )}
-
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={safePage >= totalPages}
-            className="inline-flex h-10 items-center gap-1.5 rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] px-3 text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[var(--store-border)] disabled:hover:text-[var(--store-text)]"
-          >
-            <span className="hidden sm:inline">Siguiente</span>
-            <IconChevronRight className="h-4 w-4" />
-          </button>
-        </nav>
-      ) : null}
+      <CatalogPager
+        {...pager}
+        variant="full"
+        ariaLabel="Paginación del catálogo"
+      />
 
       {sorted.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-[var(--store-border)] bg-[var(--store-muted)]/30 px-6 py-16 text-center">
@@ -273,5 +265,94 @@ export function CatalogSection({
         onClose={() => setDetailProduct(null)}
       />
     </div>
+  );
+}
+
+function CatalogPager({
+  variant,
+  safePage,
+  totalPages,
+  pageWindow,
+  onPage,
+  ariaLabel,
+}: {
+  variant: "compact" | "full";
+  safePage: number;
+  totalPages: number;
+  pageWindow: (number | "ellipsis")[];
+  onPage: (page: number) => void;
+  ariaLabel: string;
+}) {
+  if (totalPages <= 1) return null;
+
+  const btn =
+    "inline-flex h-10 items-center gap-1.5 rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] px-3 text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[var(--store-border)] disabled:hover:text-[var(--store-text)]";
+
+  return (
+    <nav
+      aria-label={ariaLabel}
+      className={
+        variant === "compact"
+          ? "flex items-center justify-between gap-2 sm:justify-end"
+          : "flex flex-wrap items-center justify-center gap-1.5 pt-1"
+      }
+    >
+      <button
+        type="button"
+        onClick={() => onPage(safePage - 1)}
+        disabled={safePage <= 1}
+        className={btn}
+      >
+        <IconChevronLeft className="h-4 w-4" />
+        <span className={variant === "compact" ? "sm:inline" : "hidden sm:inline"}>
+          Anterior
+        </span>
+      </button>
+
+      {variant === "compact" ? (
+        <p className="min-w-[6.5rem] text-center text-[13px] tabular-nums text-[var(--store-text)]">
+          Página {safePage} de {totalPages}
+        </p>
+      ) : (
+        pageWindow.map((entry, idx) =>
+          entry === "ellipsis" ? (
+            <span
+              key={`ellipsis-${idx}`}
+              aria-hidden
+              className="grid h-10 w-10 place-items-center text-[var(--store-text-soft)]"
+            >
+              …
+            </span>
+          ) : (
+            <button
+              key={entry}
+              type="button"
+              onClick={() => onPage(entry)}
+              aria-current={entry === safePage ? "page" : undefined}
+              aria-label={`Ir a la página ${entry}`}
+              className={
+                entry === safePage
+                  ? "grid h-10 w-10 place-items-center rounded-full bg-[var(--store-primary)] text-[13px] font-semibold text-[var(--store-on-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)]"
+                  : "grid h-10 w-10 place-items-center rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)]"
+              }
+            >
+              {entry}
+            </button>
+          ),
+        )
+      )}
+
+      <button
+        type="button"
+        onClick={() => onPage(safePage + 1)}
+        disabled={safePage >= totalPages}
+        className={btn}
+      >
+        <span className={variant === "compact" ? "sm:inline" : "hidden sm:inline"}>
+          Siguiente
+        </span>
+        <IconChevronRight className="h-4 w-4" />
+      </button>
+    </nav>
   );
 }
