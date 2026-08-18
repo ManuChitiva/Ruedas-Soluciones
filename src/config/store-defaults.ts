@@ -47,10 +47,10 @@ export const defaultStoreConfig: StoreConfig = {
     "--store-badge": storePalette.badge,
   },
   catalog: {
-    eyebrow: "Tienda online",
-    headline: "Todo lo que buscas, en un solo lugar",
+    eyebrow: "Catálogo industrial",
+    headline: "Ruedas y rodachines para cada tipo de carga",
     subline:
-      "Navega por nuestros productos, compara y elige con calma. Compra de forma rápida y segura; estamos aquí para ayudarte cuando lo necesites.",
+      "Filtra, compara y elige el diámetro, el material y la capacidad que tu operación necesita. Asesoría incluida.",
     sortLabel: "Más relevante",
     sortOptions: [
       { id: "relevant", label: "Más relevante" },
@@ -305,9 +305,9 @@ export const defaultStoreConfig: StoreConfig = {
    */
   heroStats: [
     { id: "anios", value: "10+", label: "Años en el mercado" },
-    { id: "clientes", value: "5.000+", label: "Clientes felices" },
+    { id: "clientes", value: "5.000+", label: "Operaciones atendidas" },
     { id: "envio", value: "24-48h", label: "Envío a domicilio" },
-    { id: "garantia", value: "100%", label: "Productos originales" },
+    { id: "garantia", value: "100%", label: "Asesoría técnica" },
   ],
   /**
    * Slides del hero — estilo Apple keynote: tipografía grande, movimiento
@@ -317,26 +317,26 @@ export const defaultStoreConfig: StoreConfig = {
    */
   heroSlides: [
     {
-      id: "slide-neumaticos",
-      eyebrow: "Neumáticos",
-      headline: "El neumático correcto para cada camino.",
-      body: "Asesoría técnica para encontrar la medida, el índice de carga y el compuesto ideal para tu vehículo y tu forma de conducir.",
-      cta: { label: "Ver catálogo", kind: "link", href: "#productos" },
+      id: "slide-ruedas",
+      eyebrow: "Ruedas",
+      headline: "El compuesto correcto para cada piso.",
+      body: "Neumáticas, de poliuretano, nylon, goma o hierro. Te ayudamos a cruzar carga, diámetro y entorno para que la rueda dure.",
+      cta: { label: "Ver ruedas", kind: "link", href: "#productos" },
       tone: "neutral",
     },
     {
-      id: "slide-llantas",
-      eyebrow: "Llantas",
-      headline: "Llantas premium, instaladas con precisión.",
-      body: "Acero y aleación en todas las medidas populares. Equilibrado, montaje y alineación incluidos con cada juego.",
-      cta: { label: "Explorar llantas", kind: "link", href: "#productos" },
+      id: "slide-rodachines",
+      eyebrow: "Rodachines",
+      headline: "Giratorios, fijos y con freno, listos para montar.",
+      body: "Placa, espiga o expansivo. Rodachines para carros, racks, camillas y maquinaria de planta.",
+      cta: { label: "Explorar rodachines", kind: "link", href: "#productos" },
       tone: "warm",
     },
     {
       id: "slide-expertos",
       eyebrow: "Asesoría",
-      headline: "Habla directo con un experto.",
-      body: "Te ayudamos a comparar referencias, validar compatibilidad y resolver dudas por WhatsApp en minutos.",
+      headline: "Dimensiónalo con un experto, no a ciegas.",
+      body: "Cuéntanos el peso, el piso y el uso. Te recomendamos la referencia exacta por WhatsApp en minutos.",
       cta: { label: "Ver asesores", kind: "advisors" },
       tone: "cool",
     },
@@ -347,19 +347,19 @@ export const defaultStoreConfig: StoreConfig = {
    * el demo luzca coherente; reemplázalas por fotos reales del equipo.
    */
   advisors: [
-    {
-      id: "asesor-1",
-      name: "Carlos Ramírez",
-      role: "Especialista en neumáticos",
+      {
+        id: "asesor-1",
+        name: "Carlos Ramírez",
+        role: "Especialista en ruedas industriales",
       photoSrc: "https://picsum.photos/seed/rs-asesor-1/240/240",
       photoAlt: "Foto de Carlos Ramírez",
       whatsapp: "+57 300 123 4567",
       phone: "+57 601 123 4567",
     },
-    {
-      id: "asesor-2",
-      name: "María Fernández",
-      role: "Asesora de llantas y frenos",
+      {
+        id: "asesor-2",
+        name: "María Fernández",
+        role: "Asesora de rodachines y carga",
       photoSrc: "https://picsum.photos/seed/rs-asesor-2/240/240",
       photoAlt: "Foto de María Fernández",
       whatsapp: "+57 310 234 5678",
@@ -462,31 +462,98 @@ export const defaultStoreConfig: StoreConfig = {
       href: "#productos",
     },
   ],
+  /** Señales de confianza — bloque bajo el hero 3D */
+  services: [
+    {
+      id: "carga",
+      icon: "shield",
+      title: "Carga real",
+      description:
+        "Desde uso interno liviano hasta ruedas de alta capacidad para planta y bodega.",
+    },
+    {
+      id: "piso",
+      icon: "install",
+      title: "El piso manda",
+      description:
+        "Neumática, poliuretano, nylon, goma o hierro según el pavimento y el ruido que puedas tolerar.",
+    },
+    {
+      id: "montaje",
+      icon: "shipping",
+      title: "Giratorias y fijas",
+      description:
+        "Placa, espiga, expansivo y con freno. El montaje correcto evita fallas a las pocas semanas.",
+    },
+    {
+      id: "asesoria",
+      icon: "support",
+      title: "Asesoría técnica",
+      description:
+        "Te pedimos peso, diámetro y entorno. Te devolvemos la referencia, no una lista genérica.",
+    },
+  ],
+  process: {
+    eyebrow: "Cómo trabajamos",
+    headline: "De la carga a la rueda, en cuatro pasos.",
+    subline:
+      "No vendemos a ciegas: dimensionamos contigo y despachamos la referencia correcta.",
+    steps: [
+      {
+        id: "paso-1",
+        number: "01",
+        title: "Cuéntanos la operación",
+        description:
+          "Peso, tipo de piso, ambiente (seco, húmedo, hospitalario) y si necesitas freno.",
+      },
+      {
+        id: "paso-2",
+        number: "02",
+        title: "Te recomendamos la rueda",
+        description:
+          "Diámetro, compuesto y montaje. Si hay dos opciones, te explicamos el trade-off.",
+      },
+      {
+        id: "paso-3",
+        number: "03",
+        title: "Despacho a todo el país",
+        description:
+          "Stock industrial y envío 24-48 h en las referencias más usadas.",
+      },
+      {
+        id: "paso-4",
+        number: "04",
+        title: "Soporte después de montar",
+        description:
+          "Si el piso o la carga cambian, redimensionamos. No te dejamos con una rueda incorrecta.",
+      },
+    ],
+  },
   /** Testimonios de clientes */
   testimonials: {
     eyebrow: "Lo que dicen nuestros clientes",
-    headline: "Clientes que vuelven por más.",
+    headline: "Operaciones que ya no se detienen por una rueda.",
     items: [
       {
         id: "t1",
         quote:
-          "Compré 4 neumáticos y el proceso fue impecable. La asesoría por WhatsApp me ayudó a elegir la medida exacta.",
+          "Cambiamos los rodachines de toda la flota de carros. La asesoría por WhatsApp acertó el diámetro y la carga a la primera.",
         name: "Carlos R.",
-        role: "Conductor particular",
+        role: "Jefe de bodega",
       },
       {
         id: "t2",
         quote:
-          "Atención rápida, precios justos y montaje profesional. Ya es mi tienda de confianza para la flota.",
+          "Precios claros y ruedas neumáticas que sí aguantan el piso irregular de la planta. Ya es nuestro proveedor de confianza.",
         name: "María F.",
-        role: "Administradora de flota",
+        role: "Compras industriales",
       },
       {
         id: "t3",
         quote:
-          "Recibí las llantas en menos de 48 h. La instalación en taller fue un detalle que no esperaba.",
+          "Pedimos rodachines hospitalarios un martes y el jueves estaban montados. El seguimiento fue tan bueno como el producto.",
         name: "Andrés P.",
-        role: "Cliente corporativo",
+        role: "Mantenimiento clínico",
       },
     ],
   },
@@ -495,7 +562,7 @@ export const defaultStoreConfig: StoreConfig = {
     eyebrow: "Comunidad",
     headline: "Mantente al día con Ruedas y Soluciones.",
     subline:
-      "Consejos de mantenimiento, lanzamientos y promociones pensadas para conductores y flotas.",
+      "Guías de carga, novedades de rodachines y promociones para plantas, bodegas y flotas internas.",
     ctaLabel: "Suscribirme",
     placeholder: "tu@correo.com",
   },
@@ -505,8 +572,8 @@ export const defaultStoreConfig: StoreConfig = {
       {
         title: "Tienda",
         links: [
-          { label: "Neumáticos", href: "#productos" },
-          { label: "Llantas", href: "#productos" },
+          { label: "Ruedas", href: "#productos" },
+          { label: "Rodachines", href: "#productos" },
           { label: "Accesorios", href: "#productos" },
           { label: "Promociones", href: "#productos" },
         ],

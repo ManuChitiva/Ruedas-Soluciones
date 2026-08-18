@@ -6,7 +6,6 @@ import { formatStorePrice } from "@/lib/format-store-price";
 import { trackStoreEvent } from "@/lib/store-analytics";
 import type {
   StoreProduct,
-  StoreProductVariant,
 } from "@/lib/store-types";
 
 export type ProductCardProps = {
@@ -69,18 +68,18 @@ export function ProductCard({
 
   if (layout === "list") {
     return (
-      <article className="group flex w-full overflow-hidden rounded-xl border border-[var(--store-border)] bg-[var(--store-surface)] transition-shadow hover:shadow-[var(--store-shadow-hover)]">
+      <article className="store-card group flex w-full overflow-hidden rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)]">
         <button
           type="button"
           onClick={openDetail}
           className="flex min-w-0 flex-1 gap-3 p-3 text-left transition hover:bg-[var(--store-hover-overlay)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--store-ring-focus)] sm:gap-4 sm:p-3.5"
         >
-          <div className="relative h-[80px] w-[80px] shrink-0 overflow-hidden rounded-lg bg-[var(--store-muted)] sm:h-[96px] sm:w-[96px]">
+          <div className="relative h-[80px] w-[80px] shrink-0 overflow-hidden rounded-xl store-studio sm:h-[96px] sm:w-[96px]">
             <Image
               src={product.imageSrc}
               alt={product.imageAlt}
               fill
-              className="object-cover transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+              className="object-contain p-2 transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
               sizes="(max-width: 640px) 80px, 96px"
             />
           </div>
@@ -89,7 +88,7 @@ export function ProductCard({
               {product.title}
             </h3>
             {priceLabel ? (
-              <p className="mt-1 text-[14px] font-semibold tabular-nums text-[var(--store-text)] sm:text-[15px]">
+              <p className="mt-1 text-[14px] font-semibold tabular-nums text-[var(--store-primary)] sm:text-[15px]">
                 {display?.fromVariants ? "Desde " : ""}
                 {priceLabel}
               </p>
@@ -113,18 +112,18 @@ export function ProductCard({
   }
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-[var(--store-border)] bg-[var(--store-surface)] transition-shadow hover:shadow-[var(--store-shadow-hover)]">
+    <article className="store-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)]">
       <button
         type="button"
         onClick={openDetail}
         className="relative flex flex-1 flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--store-ring-focus)]"
       >
-        <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[var(--store-muted)]">
+        <div className="store-studio relative aspect-square w-full shrink-0 overflow-hidden">
           <Image
             src={product.imageSrc}
             alt={product.imageAlt}
             fill
-            className="object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+            className="object-contain p-5 transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] sm:p-6"
             sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
           />
 
@@ -143,7 +142,7 @@ export function ProductCard({
             {product.title}
           </h3>
           {priceLabel ? (
-            <p className="text-[15px] font-semibold tabular-nums text-[var(--store-text)] sm:text-[16px]">
+            <p className="text-[15px] font-semibold tabular-nums text-[var(--store-primary)] sm:text-[16px]">
               {display?.fromVariants ? "Desde " : ""}
               {priceLabel}
             </p>

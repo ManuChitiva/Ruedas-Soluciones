@@ -20,13 +20,15 @@ html {
   --store-badge: #f56b00;
   --store-on-badge: #ffffff;
   --store-hover-overlay: rgba(0, 0, 0, 0.04);
-  /* Sombras sutiles y en capas — al estilo Apple */
+  /* Sombras en capas — rest y hover con un toque de naranja */
   --store-shadow-soft:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 4px 12px rgba(0, 0, 0, 0.04);
+    0 1px 2px rgba(15, 15, 15, 0.05),
+    0 8px 18px rgba(15, 15, 15, 0.06),
+    0 20px 40px rgba(15, 15, 15, 0.05);
   --store-shadow-hover:
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 12px 24px rgba(0, 0, 0, 0.08);
+    0 4px 10px rgba(15, 15, 15, 0.07),
+    0 18px 36px rgba(15, 15, 15, 0.1),
+    0 32px 64px rgba(245, 107, 0, 0.12);
   --store-ring-focus: rgba(245, 107, 0, 0.4);
 }
 
@@ -50,13 +52,15 @@ html[data-theme="dark"] {
   --store-badge: #ff8a3a;
   --store-on-badge: #1d1d1f;
   --store-hover-overlay: rgba(255, 255, 255, 0.06);
-  /* Sombras más profundas para que se noten sobre negro */
+  /* Sombras más profundas + halo naranja para que se noten sobre negro */
   --store-shadow-soft:
-    0 1px 2px rgba(0, 0, 0, 0.3),
-    0 4px 12px rgba(0, 0, 0, 0.4);
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 8px 22px rgba(0, 0, 0, 0.45),
+    0 24px 48px rgba(0, 0, 0, 0.35);
   --store-shadow-hover:
-    0 2px 4px rgba(0, 0, 0, 0.4),
-    0 12px 24px rgba(0, 0, 0, 0.5);
+    0 0 0 1px rgba(255, 138, 58, 0.28),
+    0 12px 28px rgba(0, 0, 0, 0.5),
+    0 28px 64px rgba(245, 107, 0, 0.16);
   --store-ring-focus: rgba(255, 138, 58, 0.5);
 }
 
@@ -102,37 +106,40 @@ body {
   letter-spacing: -0.022em;
 }
 
-/* —— Elevación de tarjetas — sutil, sin tintes cálidos —— */
-.store-shadow-card {
+/* —— Elevación de tarjetas —— */
+.store-shadow-card,
+.store-card,
+.store-lift {
   box-shadow: var(--store-shadow-soft);
   transition:
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.store-shadow-card:hover {
+.store-shadow-card:hover,
+.store-card:hover,
+.store-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--store-shadow-hover);
+  border-color: color-mix(in srgb, var(--store-primary) 32%, var(--store-border));
+}
+
+.store-shadow-hero {
   box-shadow: var(--store-shadow-hover);
 }
 
-/* Elevación más marcada para escaparates / hero */
-.store-shadow-hero {
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 12px 32px rgba(0, 0, 0, 0.08);
-}
-html[data-theme="dark"] .store-shadow-hero {
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.3),
-    0 16px 40px rgba(0, 0, 0, 0.5);
+.store-card-static {
+  box-shadow: var(--store-shadow-soft);
 }
 
-/* Efecto de elevación al hacer hover — lift sutil */
-.store-lift {
-  transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.store-lift:hover {
-  transform: translateY(-2px);
+.store-studio {
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      color-mix(in srgb, var(--store-primary) 10%, transparent) 0%,
+      transparent 58%
+    ),
+    var(--store-muted);
 }
 
 /* Sombra interior para inputs y superficies "hundidas" */
@@ -170,4 +177,127 @@ html[data-theme="dark"] .store-inset-soft {
 }
 .store-nav-link:hover {
   opacity: 1;
+}
+
+/* —— Hero: estudio oscuro del rodachín como fondo —— */
+.hero-studio {
+  background: var(--store-page-bg);
+}
+
+.hero-studio-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    var(--store-page-bg) 0%,
+    color-mix(in srgb, var(--store-page-bg) 82%, transparent) 26%,
+    color-mix(in srgb, var(--store-page-bg) 20%, transparent) 52%,
+    transparent 72%
+  );
+}
+
+@media (max-width: 1023px) {
+  .hero-studio-scrim {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--store-page-bg) 12%, transparent) 0%,
+      color-mix(in srgb, var(--store-page-bg) 22%, transparent) 42%,
+      var(--store-page-bg) 100%
+    );
+  }
+}
+
+.caster-hero-bg {
+  display: block;
+}
+
+.caster-hero-glow {
+  position: absolute;
+  right: 6%;
+  top: 22%;
+  z-index: 0;
+  width: min(48vw, 36rem);
+  height: min(56vh, 28rem);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--store-primary) 18%, transparent) 0%,
+    transparent 70%
+  );
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.caster-hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: right center;
+  -webkit-mask-image: radial-gradient(
+    ellipse 78% 72% at 62% 48%,
+    #000 42%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    ellipse 78% 72% at 62% 48%,
+    #000 42%,
+    transparent 78%
+  );
+  transition: opacity 0.35s ease;
+}
+
+.caster-hero-video-light {
+  opacity: 1;
+  mix-blend-mode: multiply;
+}
+
+.caster-hero-video-dark {
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+html[data-theme="dark"] .caster-hero-video-light {
+  opacity: 0;
+}
+
+html[data-theme="dark"] .caster-hero-video-dark {
+  opacity: 1;
+}
+
+html[data-theme="dark"] .caster-hero-glow {
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--store-primary) 26%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+@media (max-width: 1023px) {
+  .caster-hero-glow {
+    right: 50%;
+    top: 2%;
+    width: 88vw;
+    height: 20rem;
+    transform: translateX(50%);
+  }
+
+  .caster-hero-video {
+    object-position: center top;
+    -webkit-mask-image: radial-gradient(
+      ellipse 70% 68% at 50% 38%,
+      #000 36%,
+      transparent 78%
+    );
+    mask-image: radial-gradient(
+      ellipse 70% 68% at 50% 38%,
+      #000 36%,
+      transparent 78%
+    );
+  }
 }

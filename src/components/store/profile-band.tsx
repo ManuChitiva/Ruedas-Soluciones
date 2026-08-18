@@ -49,7 +49,7 @@ export function ProfileBand({
   return (
     <section
       aria-labelledby="profile-heading"
-      className="relative w-full border-y border-[var(--store-border)] bg-[var(--store-page-bg)]"
+      className="relative w-full bg-[var(--store-page-bg)]"
     >
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-14 lg:px-8 lg:py-24 xl:px-10 2xl:px-12">
         <div className="space-y-4">
@@ -118,7 +118,7 @@ function ProfileTile({
   href?: string;
 }) {
   const inner = (
-    <div className="store-lift flex h-full flex-col gap-3 rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)] p-5 shadow-md shadow-black/5 ring-1 ring-black/[0.03] hover:border-[var(--store-primary)]/45 hover:shadow-xl hover:shadow-black/10 hover:ring-[var(--store-primary)]/20 sm:p-6">
+    <div className="store-card flex h-full flex-col gap-3 rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)] p-5 sm:p-6">
       <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--store-primary)]/12 text-[var(--store-primary)] transition-transform duration-300 ease-out group-hover:scale-110">
         {icon}
       </span>

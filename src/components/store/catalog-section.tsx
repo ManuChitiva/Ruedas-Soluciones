@@ -105,9 +105,9 @@ export function CatalogSection({
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
-            <h1 className="font-display text-4xl tracking-tight text-[var(--store-text)] sm:text-5xl">
+            <h2 className="font-display text-3xl tracking-tight text-[var(--store-text)] sm:text-4xl lg:text-[2.75rem]">
               {headline}
-            </h1>
+            </h2>
             {subline ? (
               <p className="mt-3 text-[15px] leading-relaxed text-[var(--store-text-soft)] sm:text-[17px]">
                 {subline}
@@ -121,7 +121,7 @@ export function CatalogSection({
       </header>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
-        <div className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-lg border border-[var(--store-border)] bg-[var(--store-surface)] px-4 transition focus-within:border-[var(--store-primary)] focus-within:ring-2 focus-within:ring-[var(--store-ring-focus)]">
+        <div className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] px-4 shadow-[var(--store-shadow-soft)] transition focus-within:border-[var(--store-primary)] focus-within:ring-2 focus-within:ring-[var(--store-ring-focus)]">
           <IconSearch className="h-[18px] w-[18px] shrink-0 text-[var(--store-text-soft)]" />
           <input
             type="search"
@@ -138,7 +138,7 @@ export function CatalogSection({
             <select
               value={sortId}
               onChange={(e) => setSortId(e.target.value)}
-              className="h-11 w-full min-w-[10.5rem] cursor-pointer appearance-none rounded-lg border border-[var(--store-border)] bg-[var(--store-surface)] py-2 pl-3.5 pr-10 text-[13px] text-[var(--store-text)] outline-none transition hover:border-[var(--store-primary)]/45 focus:border-[var(--store-primary)] focus:ring-2 focus:ring-[var(--store-ring-focus)]"
+              className="h-11 w-full min-w-[10.5rem] cursor-pointer appearance-none rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] py-2 pl-3.5 pr-10 text-[13px] text-[var(--store-text)] shadow-[var(--store-shadow-soft)] outline-none transition hover:border-[var(--store-primary)]/45 focus:border-[var(--store-primary)] focus:ring-2 focus:ring-[var(--store-ring-focus)]"
               aria-label="Ordenar por"
             >
               {sortOptions.map((o) => (
@@ -152,7 +152,7 @@ export function CatalogSection({
           </div>
 
           <div
-            className="flex rounded-lg border border-[var(--store-border)] bg-[var(--store-surface)] p-1"
+            className="flex rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] p-1 shadow-[var(--store-shadow-soft)]"
             role="group"
             aria-label="Vista de catálogo"
           >
@@ -212,7 +212,7 @@ export function CatalogSection({
             type="button"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={safePage <= 1}
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-[var(--store-border)] bg-[var(--store-surface)] px-3 text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[var(--store-border)] disabled:hover:text-[var(--store-text)]"
+            className="inline-flex h-10 items-center gap-1.5 rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] px-3 text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[var(--store-border)] disabled:hover:text-[var(--store-text)]"
           >
             <IconChevronLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Anterior</span>
@@ -236,8 +236,8 @@ export function CatalogSection({
                 aria-label={`Ir a la página ${entry}`}
                 className={
                   entry === safePage
-                    ? "grid h-10 w-10 place-items-center rounded-lg bg-[var(--store-primary)] text-[13px] font-semibold text-[var(--store-primary-contrast)] shadow-[var(--store-shadow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)]"
-                    : "grid h-10 w-10 place-items-center rounded-lg border border-[var(--store-border)] bg-[var(--store-surface)] text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)]"
+                    ? "grid h-10 w-10 place-items-center rounded-full bg-[var(--store-primary)] text-[13px] font-semibold text-[var(--store-on-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)]"
+                    : "grid h-10 w-10 place-items-center rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)]"
                 }
               >
                 {entry}
@@ -249,7 +249,7 @@ export function CatalogSection({
             type="button"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={safePage >= totalPages}
-            className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-[var(--store-border)] bg-[var(--store-surface)] px-3 text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[var(--store-border)] disabled:hover:text-[var(--store-text)]"
+            className="inline-flex h-10 items-center gap-1.5 rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] px-3 text-[13px] font-medium text-[var(--store-text)] transition hover:border-[var(--store-primary)]/45 hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[var(--store-border)] disabled:hover:text-[var(--store-text)]"
           >
             <span className="hidden sm:inline">Siguiente</span>
             <IconChevronRight className="h-4 w-4" />
@@ -258,7 +258,7 @@ export function CatalogSection({
       ) : null}
 
       {sorted.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-[var(--store-border)] bg-[var(--store-muted)]/30 px-6 py-16 text-center">
+        <div className="rounded-2xl border border-dashed border-[var(--store-border)] bg-[var(--store-muted)]/30 px-6 py-16 text-center">
           <p className="text-lg font-semibold text-[var(--store-text)]">
             Sin coincidencias
           </p>

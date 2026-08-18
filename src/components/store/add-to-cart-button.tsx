@@ -74,7 +74,7 @@ export function AddToCartButton({
       aria-live="polite"
       disabled={isOutOfStock}
       className={`text-[12px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--store-surface)] ${
-        isGrid ? "w-full rounded-md py-2" : "shrink-0 rounded-md px-4 py-2"
+        isGrid ? "w-full rounded-full py-2.5" : "shrink-0 rounded-full px-4 py-2"
       } ${
         justAdded
           ? "bg-[var(--store-primary)] text-[var(--store-on-primary)]"

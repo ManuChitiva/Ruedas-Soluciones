@@ -127,14 +127,15 @@ export function FooterStorefront({
   const hasSocials = socialEntries.length > 0;
 
   return (
-    <footer className="mt-auto w-full border-t border-[var(--store-border)] bg-[var(--store-surface)]">
+    <footer className="mt-auto w-full border-t border-[var(--store-border)] bg-[var(--store-muted)]/60">
       <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20 xl:px-10 2xl:px-12">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
           {/* Brand column */}
           <div className="space-y-5">
             <BrandLogo {...brand} size="lg" className="max-w-[16rem]" />
-            <p className="mt-2 max-w-sm text-[14px] leading-relaxed text-[var(--store-text)] sm:text-[15px]">
-              Ruedas, llantas y respaldo experto en cada compra.
+            <p className="mt-2 max-w-sm text-[14px] leading-relaxed text-[var(--store-text-soft)] sm:text-[15px]">
+              Ruedas, rodachines y recambios industriales. Asesoría técnica para
+              cada tipo de piso y carga.
             </p>
             {hasSocials ? (
               <ul className="flex items-center gap-2 pt-2">
@@ -146,7 +147,7 @@ export function FooterStorefront({
                       rel="noreferrer noopener"
                       aria-label={social.label}
                       title={social.rawValue}
-                      className="grid h-9 w-9 place-items-center rounded-full border border-[var(--store-border)] text-[var(--store-text-soft)] transition hover:border-[var(--store-primary)]/60 hover:text-[var(--store-primary)]"
+                      className="grid h-10 w-10 place-items-center rounded-full border border-[var(--store-border)] bg-[var(--store-surface)] text-[var(--store-text-soft)] transition hover:border-[var(--store-primary)]/60 hover:text-[var(--store-primary)]"
                     >
                       <SocialIcon id={social.id} />
                     </a>
