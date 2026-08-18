@@ -16,8 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Catálogo",
-  description: "Tienda en línea parametrizable",
+  title: "Ruedas y Soluciones",
+  description:
+    "Ruedas, rodachines y carretillas industriales. Asesoría técnica, stock y envío a todo el país.",
 };
 
 export default function RootLayout({

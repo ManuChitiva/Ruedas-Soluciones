@@ -84,7 +84,7 @@ function CollectionCard({
   return (
     <a
       href={collection.href}
-      className="group store-lift relative block w-full overflow-hidden rounded-2xl border border-[var(--store-border)] bg-[var(--store-muted)]"
+      className="store-card group relative block w-full overflow-hidden rounded-2xl border border-[var(--store-border)] bg-[var(--store-muted)]"
     >
       <div className={`relative w-full ${aspectClass}`}>
         <Image
@@ -96,12 +96,12 @@ function CollectionCard({
               ? "(max-width: 1024px) 100vw, 1024px"
               : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
           }
-          className="object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+          className="object-contain p-6 transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03] sm:p-8"
         />
         {/* Gradient for legibility */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"
         />
       </div>
 

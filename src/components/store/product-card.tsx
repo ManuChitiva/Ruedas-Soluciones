@@ -69,7 +69,7 @@ export function ProductCard({
 
   if (layout === "list") {
     return (
-      <article className="group flex w-full overflow-hidden rounded-xl border border-[var(--store-border)] bg-[var(--store-surface)] transition-shadow hover:shadow-[var(--store-shadow-hover)]">
+      <article className="store-card group flex w-full overflow-hidden rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)]">
         <button
           type="button"
           onClick={openDetail}
@@ -113,7 +113,7 @@ export function ProductCard({
   }
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-[var(--store-border)] bg-[var(--store-surface)] transition-shadow hover:shadow-[var(--store-shadow-hover)]">
+    <article className="store-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--store-border)] bg-[var(--store-surface)]">
       <button
         type="button"
         onClick={openDetail}

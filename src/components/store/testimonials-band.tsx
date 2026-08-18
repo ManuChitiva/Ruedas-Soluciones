@@ -59,7 +59,7 @@ export function TestimonialsBand({
           {items.map((testimonial) => (
             <li
               key={testimonial.id}
-              className="store-lift group flex h-full flex-col gap-5 rounded-2xl border border-white/15 bg-[var(--store-surface)] p-6 shadow-xl shadow-black/40 ring-1 ring-black/5 hover:border-[var(--store-primary)]/50 hover:shadow-[0_45px_80px_-20px_rgba(0,0,0,0.75)] hover:ring-[var(--store-primary)]/30 sm:p-7"
+              className="store-card group flex h-full flex-col gap-5 rounded-2xl border border-white/15 bg-[var(--store-surface)] p-6 sm:p-7"
             >
               {/* Decorative quote */}
               <span

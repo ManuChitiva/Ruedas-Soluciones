@@ -2,13 +2,15 @@ import { AdvisorsModalProvider } from "@/components/store/advisors-launcher";
 import { CatalogSection } from "@/components/store/catalog-section";
 import { FeaturedCollections } from "@/components/store/featured-collections";
 import { FooterStorefront } from "@/components/store/footer-storefront";
-import { HeroCarousel } from "@/components/store/hero-carousel";
-import { HeroSection } from "@/components/store/hero-section";
+import { HeroHighlights } from "@/components/store/hero-highlights";
+import { HeroStudio } from "@/components/store/hero-studio";
 import { NewsletterBand } from "@/components/store/newsletter-band";
+import { ProcessBand } from "@/components/store/process-band";
 import { ProfileBand } from "@/components/store/profile-band";
 import { StoreNavbar } from "@/components/store/navbar";
 import { StoreSidebar } from "@/components/store/store-sidebar";
 import { TestimonialsBand } from "@/components/store/testimonials-band";
+import { TrustStrip } from "@/components/store/trust-strip";
 import { getStoreConfigFromApi } from "@/lib/store-api";
 import { themeToStyle } from "@/lib/store-types";
 
@@ -16,13 +18,6 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const store = await getStoreConfigFromApi();
-
-  // Imagen de fondo del hero / carrusel: preferir la portada del API;
-  // caer al placeholder del config si el backend no la envía.
-  const heroImage =
-    store.profile?.coverImageUrl?.trim()
-      ? { src: store.profile.coverImageUrl, alt: store.brand.name }
-      : store.heroImage;
 
   const hasSlides =
     Array.isArray(store.heroSlides) && store.heroSlides.length > 0;
@@ -46,36 +41,35 @@ export default async function Home() {
       >
         <StoreNavbar brand={store.brand} links={store.navLinks} sticky />
 
+        <HeroStudio
+          hero={{
+            eyebrow: "Movimiento industrial",
+            headline: "Ruedas y *rodachines* para cada operación.",
+            subline:
+              store.profile?.description?.trim() ??
+              "Capacidad, diámetro y material correctos para tu piso. Asesoría técnica, stock industrial y envío a todo el país.",
+            primaryCta: { label: "Ver catálogo", anchor: "#productos" },
+            secondaryCta: {
+              label: "Hablar con un experto",
+              anchor: "#contacto",
+            },
+          }}
+          stats={store.heroStats}
+        />
+
+        {store.services && store.services.length > 0 ? (
+          <TrustStrip items={store.services} />
+        ) : null}
+
         {hasSlides ? (
-          <HeroCarousel
-            slides={store.heroSlides ?? []}
-            fallbackImage={heroImage}
-          />
-        ) : (
-          <HeroSection
-            brand={store.brand}
-            hero={{
-              eyebrow: store.brand.name,
-              headline: "Tu próxima *rodada* empieza aquí.",
-              subline:
-                store.profile?.description?.trim() ??
-                "Neumáticos, llantas y accesorios originales con asesoría experta, instalación incluida y envío a todo el país.",
-              primaryCta: { label: "Ver catálogo", anchor: "#productos" },
-              secondaryCta: {
-                label: "Hablar con un experto",
-                anchor: "#contacto",
-              },
-            }}
-            image={heroImage}
-            stats={store.heroStats}
-          />
-        )}
+          <HeroHighlights slides={store.heroSlides ?? []} />
+        ) : null}
 
         {store.featuredCollections && store.featuredCollections.length > 0 ? (
           <FeaturedCollections
-            eyebrow="Colecciones principales"
-            headline="Tres líneas que cubren todo lo que tu vehículo necesita."
-            subline="Cada colección reúne productos originales, marcas reconocidas y el respaldo de nuestro equipo técnico."
+            eyebrow="Líneas industriales"
+            headline="Ruedas, rodachines y recambios listos para carga real."
+            subline="Cada línea está pensada para un tipo de piso, peso y entorno: planta, bodega, hospital o uso interno."
             collections={store.featuredCollections}
           />
         ) : null}
@@ -87,6 +81,15 @@ export default async function Home() {
           store.profile.schedule ||
           store.profile.paymentMethods) ? (
           <ProfileBand profile={store.profile} />
+        ) : null}
+
+        {store.process ? (
+          <ProcessBand
+            eyebrow={store.process.eyebrow}
+            headline={store.process.headline}
+            subline={store.process.subline}
+            steps={store.process.steps}
+          />
         ) : null}
 
         <main

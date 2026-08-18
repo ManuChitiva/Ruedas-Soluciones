@@ -53,10 +53,12 @@ export function StoreNavbar({
   const iconButtonClass =
     "relative grid h-10 w-10 place-items-center rounded-full text-[var(--store-text)] transition hover:bg-[var(--store-hover-overlay)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--store-surface)]";
 
-  const headerClass = `relative w-full border-b border-[var(--store-border)] bg-[var(--store-surface)] transition-shadow duration-300 ${
+  const headerClass = `relative w-full transition-[background-color,border-color,box-shadow] duration-300 ${
     sticky ? "sticky top-0 z-50" : ""
   } ${
-    scrolled ? "shadow-[var(--store-shadow-soft)]" : ""
+    scrolled
+      ? "border-b border-[var(--store-border)] bg-[var(--store-surface)]/80 shadow-[var(--store-shadow-soft)] backdrop-blur-xl"
+      : "border-b border-transparent bg-[var(--store-page-bg)]"
   }`;
 
   /**
