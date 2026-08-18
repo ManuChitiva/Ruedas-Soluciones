@@ -78,7 +78,7 @@ type ProductApiResponse = {
 /**
  * Respuesta de asesores: el mapper vive en `@/lib/store-advisor-mapper`
  * (compartido client/server). Ver `AdvisorsModalProvider` para el fetch
- * lazy del modal.
+ * lazy del widget flotante.
  */
 
 function withoutMockProducts(config: StoreConfig): StoreConfig {
@@ -280,7 +280,7 @@ export async function getStoreConfigFromApi(): Promise<StoreConfig> {
     }
 
     // Asesores: el fetch se hace client-side, lazy, desde
-    // `AdvisorsModalProvider` cuando el usuario abre el modal.
+    // `AdvisorsModalProvider` para el widget flotante.
 
     return {
       ...defaultStoreConfig,

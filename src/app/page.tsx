@@ -22,7 +22,7 @@ export default async function Home() {
   const hasSlides =
     Array.isArray(store.heroSlides) && store.heroSlides.length > 0;
 
-  // Slug y base URL para el fetch lazy del modal de asesores.
+  // Slug y base URL para el widget flotante de asesores.
   const advisorSlug =
     store.slug ??
     process.env.NEXT_PUBLIC_STORE_API_SLUG?.trim() ??

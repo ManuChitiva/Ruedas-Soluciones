@@ -312,7 +312,7 @@ export const defaultStoreConfig: StoreConfig = {
   /**
    * Slides del hero — estilo Apple keynote: tipografía grande, movimiento
    * sutil, copy enfocado. Reordenables desde este array.
-   * El CTA del slide de Asesoría abre el modal de asesores
+   * El CTA del slide de Asesoría abre el widget flotante de asesores
    * (kind: "advisors") en lugar de un link ancla.
    */
   heroSlides: [

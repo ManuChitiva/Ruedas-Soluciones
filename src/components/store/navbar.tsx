@@ -63,7 +63,7 @@ export function StoreNavbar({
 
   /**
    * Renderiza un link del navbar. Si `item.kind === "advisors"`, se renderiza
-   * como botón que abre el modal de asesores en lugar de navegar a un anchor.
+   * como botón que abre el widget flotante de asesores.
    */
   const renderNavItem = (item: NavLinkItem, variant: "desktop" | "mobile") => {
     const isAdvisorsTrigger = item.kind === "advisors";
@@ -80,12 +80,7 @@ export function StoreNavbar({
           key={item.label}
           type="button"
           onClick={handleClick}
-          disabled={!advisorsModal?.hasAdvisors}
-          title={
-            advisorsModal?.hasAdvisors
-              ? undefined
-              : "Aún no hay asesores publicados."
-          }
+          disabled={!advisorsModal}
           className={
             variant === "desktop"
               ? "group relative inline-flex items-center text-[13.5px] font-medium tracking-tight text-[var(--store-text)] transition hover:text-[var(--store-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--store-ring-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--store-surface)] disabled:cursor-not-allowed disabled:opacity-70"

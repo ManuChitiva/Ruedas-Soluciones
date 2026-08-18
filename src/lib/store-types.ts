@@ -6,7 +6,7 @@ export type NavLinkItem = {
   /**
    * `kind` permite distinguir un link ancla normal (`"link"`, default)
    * de uno que dispara una acción de UI — actualmente solo `"advisors"`
-   * abre el modal de asesores en lugar de hacer scroll.
+   * abre el widget flotante de asesores en lugar de hacer scroll.
    */
   kind?: "link" | "advisors";
 };
@@ -121,7 +121,7 @@ export type StoreSortOption = {
 
 /**
  * Call-to-action de un slide del hero. Puede ser un link ancla clásico
- * (`kind: "link"`) o disparar el modal de asesores (`kind: "advisors"`).
+ * (`kind: "link"`) o disparar el widget flotante de asesores (`kind: "advisors"`).
  */
 export type StoreHeroCtaAction =
   | { kind: "link"; href: string }
@@ -150,9 +150,9 @@ export type StoreHeroSlide = {
 };
 
 /**
- * Asesor comercial de la tienda. Se muestra dentro del modal que se
- * abre al pulsar el CTA "advisors" del slide de Asesoría del hero.
- * `whatsapp` y `phone` admiten números crudos (con o sin '+') — el modal
+ * Asesor comercial de la tienda. Se muestra en el widget flotante de
+ * asesoría (CTA "advisors" del navbar o del hero).
+ * `whatsapp` y `phone` admiten números crudos (con o sin '+') — el widget
  * se encarga de armar los href correctos.
  */
 export type StoreAdvisor = {
@@ -169,6 +169,16 @@ export type StoreAdvisor = {
   /** Número de teléfono (en formato E.164 sin '+' o con '+') */
   phone?: string;
 };
+
+/**
+ * Estado del fetch de asesores para el widget flotante.
+ * `idle` → `loading` → (`ready` | `error`).
+ */
+export type AdvisorsFetchState =
+  | { kind: "idle" }
+  | { kind: "loading" }
+  | { kind: "ready"; advisors: StoreAdvisor[] }
+  | { kind: "error"; message: string };
 
 /**
  * Tarjeta de servicio/beneficio. Inspirada en los "trust signals" de macho.com.co,
@@ -294,7 +304,8 @@ export type StoreConfig = {
   };
   /** Slides del hero — si está vacío, el home no muestra carrusel */
   heroSlides?: StoreHeroSlide[];
-  /** Asesores comerciales — listados en el modal que abre el CTA "Asesoría" */
+  /** Asesores comerciales — listados en el widget flotante de asesoría */
+  advisors?: StoreAdvisor[];
   advisors?: StoreAdvisor[];
   /** Categorías destacadas del strip — si está vacío, el strip se omite */
   featuredCategories?: StoreFeaturedCategory[];

@@ -176,12 +176,7 @@ export function HeroCarousel({
                       <button
                         type="button"
                         onClick={() => advisorsModal?.open()}
-                        disabled={!advisorsModal?.hasAdvisors}
-                        title={
-                          advisorsModal?.hasAdvisors
-                            ? undefined
-                            : "Aún no hay asesores publicados."
-                        }
+                        disabled={!advisorsModal}
                         className="store-btn-solid mt-7 inline-flex w-fit items-center gap-2 rounded-full px-7 py-3.5 text-[14px] font-medium disabled:cursor-not-allowed disabled:opacity-70"
                       >
                         {slide.cta.label}

@@ -62,7 +62,7 @@ export function HeroHighlights({
                   <button
                     type="button"
                     onClick={() => advisorsModal?.open()}
-                    disabled={!advisorsModal?.hasAdvisors}
+                    disabled={!advisorsModal}
                     className="mt-6 inline-flex w-fit items-center gap-1.5 text-[13.5px] font-medium text-[var(--store-primary)] transition hover:gap-2.5 disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {slide.cta.label}

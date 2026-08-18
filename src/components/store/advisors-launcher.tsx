@@ -9,28 +9,24 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { AdvisorsModal } from "@/components/store/advisors-modal";
+import { AdvisorsWidget } from "@/components/store/advisors-widget";
 import {
   mapAdvisors,
   type AdvisorApiResponse,
 } from "@/lib/store-advisor-mapper";
-import type { StoreAdvisor } from "@/lib/store-types";
+import type { AdvisorsFetchState } from "@/lib/store-types";
 
 /**
  * Estado del fetch de asesores. La máquina sigue este orden:
  * `idle` → `loading` → (`ready` | `error`). Una vez en `ready` o
  * `error`, no se vuelve a `loading` salvo reintento explícito.
  */
-export type AdvisorsFetchState =
-  | { kind: "idle" }
-  | { kind: "loading" }
-  | { kind: "ready"; advisors: StoreAdvisor[] }
-  | { kind: "error"; message: string };
+export type { AdvisorsFetchState } from "@/lib/store-types";
 
 type AdvisorsModalContextValue = {
-  /** Abre el modal y dispara el fetch si todavía no tenemos datos. */
+  /** Abre el widget flotante y dispara el fetch si todavía no tenemos datos. */
   open: () => void;
-  /** Cierra el modal (no limpia el estado del fetch). */
+  /** Cierra el panel del widget (no limpia el estado del fetch). */
   close: () => void;
   /** True si ya tenemos datos cargados y la lista no está vacía. */
   hasAdvisors: boolean;
@@ -50,18 +46,18 @@ export type AdvisorsModalProviderProps = {
   slug: string;
   /**
    * Base URL absoluta del backend SIN slash final (ej. "http://localhost:8094/store").
-   * Si llega vacía, el modal mostrará un error al abrir.
+   * Si llega vacía, el widget mostrará un error al abrir.
    */
   apiBaseUrl: string;
   children: ReactNode;
 };
 
 /**
- * Provider que mantiene UNA sola instancia de `AdvisorsModal` en la página.
- * Cualquier CTA (navbar, hero carrusel, etc.) puede abrirlo vía
+ * Provider que mantiene UNA sola instancia del widget flotante de asesores.
+ * Cualquier CTA (navbar, hero, etc.) puede abrirlo vía
  * `useAdvisorsModal().open()`. El fetch a `/stores/{slug}/personal` se
- * dispara **solo cuando el usuario abre el modal por primera vez**, lo que
- * evita acoplar el SSR al endpoint y permite mostrar loading/error reales.
+ * dispara al montar (y de nuevo si hace falta al abrir), lo que evita
+ * acoplar el SSR al endpoint y permite mostrar loading/error reales.
  */
 export function AdvisorsModalProvider({
   slug,
@@ -122,12 +118,7 @@ export function AdvisorsModalProvider({
     [open, close, state],
   );
 
-  // Si el provider se desmonta con el modal abierto, no pasa nada (el body
-  // overflow se restaura en el useEffect interno del modal). No hace falta
-  // cleanup adicional acá.
-
-  // Opcional: precalentar la primera carga al montar (no rompe nada si
-  // falla — solo acelera la primera apertura).
+  // Precalentar la primera carga al montar (no rompe nada si falla).
   useEffect(() => {
     if (state.kind === "idle" && apiBaseUrl && slug) {
       void fetchAdvisors();
@@ -139,9 +130,10 @@ export function AdvisorsModalProvider({
   return (
     <AdvisorsModalContext.Provider value={value}>
       {children}
-      <AdvisorsModal
+      <AdvisorsWidget
         open={isOpen}
         state={state}
+        onOpen={open}
         onClose={close}
         onRetry={fetchAdvisors}
       />
@@ -150,7 +142,7 @@ export function AdvisorsModalProvider({
 }
 
 /**
- * Hook para abrir/cerrar el modal de asesores desde cualquier cliente.
+ * Hook para abrir/cerrar el widget de asesores desde cualquier cliente.
  * Devuelve `null` si se usa fuera del provider (caso server / SSR aislado).
  */
 export function useAdvisorsModal(): AdvisorsModalContextValue | null {
