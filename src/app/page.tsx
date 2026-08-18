@@ -96,15 +96,9 @@ export default async function Home() {
           id="productos"
           className="w-full min-w-0 flex-1 border-y border-[var(--store-border)] bg-[var(--store-page-bg)]"
         >
-          <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 xl:px-10 2xl:px-12">
-            <div className="lg:grid lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:items-start lg:gap-10 xl:gap-14">
-              <aside
-                id="contacto"
-                className="order-2 mt-12 mb-4 space-y-5 lg:order-1 lg:mt-0 lg:mb-0 lg:sticky lg:top-[5.25rem] lg:self-start"
-              >
-                <StoreSidebar contact={store.contact} pickup={store.pickup} />
-              </aside>
-              <div className="order-1 min-w-0">
+          <div className="mx-auto w-full max-w-[90rem] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24 xl:px-10 2xl:px-14">
+            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(16rem,18rem)] lg:items-start lg:gap-10 xl:gap-12 2xl:gap-16">
+              <div className="min-w-0">
                 <CatalogSection
                   eyebrow={store.catalog.eyebrow}
                   headline={store.catalog.headline}
@@ -114,6 +108,12 @@ export default async function Home() {
                   products={store.catalog.products}
                 />
               </div>
+              <aside
+                id="contacto"
+                className="mt-12 space-y-5 lg:mt-0 lg:sticky lg:top-[5.25rem] lg:self-start"
+              >
+                <StoreSidebar contact={store.contact} pickup={store.pickup} />
+              </aside>
             </div>
           </div>
         </main>

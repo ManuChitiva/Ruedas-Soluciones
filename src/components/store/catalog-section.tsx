@@ -104,7 +104,7 @@ export function CatalogSection({
           {eyebrow}
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
+          <div className="max-w-3xl">
             <h2 className="font-display text-3xl tracking-tight text-[var(--store-text)] sm:text-4xl lg:text-[2.75rem]">
               {headline}
             </h2>
@@ -189,7 +189,7 @@ export function CatalogSection({
       <div
         className={
           view === "grid"
-            ? "grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4"
+            ? "grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6 2xl:grid-cols-5"
             : "flex flex-col gap-3"
         }
       >

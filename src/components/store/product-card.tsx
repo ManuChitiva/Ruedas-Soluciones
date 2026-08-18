@@ -123,8 +123,8 @@ export function ProductCard({
             src={product.imageSrc}
             alt={product.imageAlt}
             fill
-            className="object-contain p-5 transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] sm:p-6"
-            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
+            className="object-contain p-5 transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] sm:p-7"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1536px) 22vw, 18vw"
           />
 
           {/* Variant count chip */}
@@ -137,7 +137,7 @@ export function ProductCard({
             </span>
           ) : null}
         </div>
-        <div className="flex flex-1 flex-col gap-1.5 p-4">
+        <div className="flex flex-1 flex-col gap-1.5 p-4 sm:p-5">
           <h3 className="line-clamp-2 text-[14px] font-medium leading-snug text-[var(--store-text)] sm:text-[15px]">
             {product.title}
           </h3>
@@ -149,7 +149,7 @@ export function ProductCard({
           ) : null}
         </div>
       </button>
-      <div className="border-t border-[var(--store-border)] px-4 pb-4 pt-3">
+      <div className="border-t border-[var(--store-border)] px-4 pb-4 pt-3 sm:px-5">
         <AddToCartButton
           product={product}
           layout="grid"
